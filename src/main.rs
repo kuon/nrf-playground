@@ -75,6 +75,8 @@ const APP: () = {
 
         let sd = Softdevice::enable(&config);
 
+        debug!("Soft device created");
+
         // Enable external crystal
 
         /*
