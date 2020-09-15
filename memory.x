@@ -1,5 +1,5 @@
 MEMORY
 {
   FLASH (rx) : ORIGIN = 0x27000, LENGTH = 0xd9000
-  RAM (rwx) :  ORIGIN = 0x20002fe0, LENGTH = 0x3d020
+  RAM (rwx) :  ORIGIN = 0x2000d488, LENGTH = 0x32B78
 }
