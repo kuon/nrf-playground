@@ -16,11 +16,14 @@ bench = false
 cortex-m = { version = "0.6.3"}
 cortex-m-rtic = "0.5.5"
 nrf52840-hal = { version="0.11", features = ["rt"] }
-nrf-softdevice = { version = "0.1.0", features = ["defmt-trace", "nrf52840", "s140", "ble-peripheral"] }
+nrf-softdevice = { version = "0.1.0", features = [
+    "defmt-trace", "nrf52840", "s140", "ble-peripheral", "ble-gatt-server"] }
 nrf-softdevice-s140 = { version = "0.1.0" }
 defmt = { version = "0.1.0" }
 defmt-rtt = "0.1.0"
-panic-probe = "0.1.0"
+panic-probe = {version = "0.1.0"}
+static-executor  = { version = "0.1.0", features=["defmt"]}
+static-executor-cortex-m  = { version = "0.1.0" }
 
 [features]
 # set logging levels here
@@ -42,6 +45,8 @@ defmt = { git = "https://github.com/knurling-rs/defmt", branch="main" }
 defmt-rtt = { git = "https://github.com/knurling-rs/defmt", branch="main" }
 nrf-softdevice = { git = "https://github.com/akiles/nrf-softdevice" }
 nrf-softdevice-s140 = { git = "https://github.com/akiles/nrf-softdevice" }
+static-executor = { git = "https://github.com/Dirbaio/static-executor" }
+static-executor-cortex-m = { git = "https://github.com/Dirbaio/static-executor" }
 
 [profile.dev]
 codegen-units = 1
