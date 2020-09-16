@@ -23,7 +23,7 @@ dependencies = [
 [[package]]
 name = "async-flash"
 version = "0.1.0"
-source = "git+https://github.com/akiles/nrf-softdevice#b13ddeb34dc11355e2d4a9a58c338a48f7089e73"
+source = "git+https://github.com/akiles/nrf-softdevice#9aa2ad0377b4b75f7a8602a51bf9d4eea2a36e84"
 dependencies = [
  "defmt",
 ]
@@ -335,7 +335,7 @@ dependencies = [
 [[package]]
 name = "nrf-softdevice"
 version = "0.1.0"
-source = "git+https://github.com/akiles/nrf-softdevice#b13ddeb34dc11355e2d4a9a58c338a48f7089e73"
+source = "git+https://github.com/akiles/nrf-softdevice#9aa2ad0377b4b75f7a8602a51bf9d4eea2a36e84"
 dependencies = [
  "async-flash",
  "bare-metal",
@@ -352,7 +352,7 @@ dependencies = [
 [[package]]
 name = "nrf-softdevice-s140"
 version = "0.1.1"
-source = "git+https://github.com/akiles/nrf-softdevice#b13ddeb34dc11355e2d4a9a58c338a48f7089e73"
+source = "git+https://github.com/akiles/nrf-softdevice#9aa2ad0377b4b75f7a8602a51bf9d4eea2a36e84"
 
 [[package]]
 name = "nrf52840-hal"
@@ -401,7 +401,7 @@ dependencies = [
 [[package]]
 name = "panic-probe"
 version = "0.1.0"
-source = "git+https://github.com/knurling-rs/probe-run?branch=main#6902d6e622be4942a7e25d917e03570a0f2f2207"
+source = "git+https://github.com/knurling-rs/probe-run?branch=main#7e26e33910eed91aac25b01ab7d7b9cfe0dd4fec"
 dependencies = [
  "cortex-m",
  "cortex-m-rt",
