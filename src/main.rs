@@ -22,7 +22,7 @@ use {
 };
 
 use core::mem;
-use defmt::{debug, info};
+use defmt::{debug, error, info};
 use nrf_softdevice::ble::{gatt_server, gatt_server::*, peripheral, Uuid};
 use nrf_softdevice::{raw, temperature_celsius, Softdevice};
 
@@ -118,8 +118,7 @@ const APP: () = {
                 *ble = Some(server.clone());
             });
 
-            run_gatt_server.spawn(sd, server).dewrap();
-            run_bluetooth.spawn(sd).dewrap();
+            run_bluetooth.spawn(sd, server).dewrap();
             run_softdevice.spawn(sd).dewrap();
             static_executor::run();
         }
@@ -175,6 +174,8 @@ pub struct DataServiceServer {
 }
 
 impl gatt_server::Server for DataServiceServer {
+    type Event = u8;
+
     fn uuid() -> Uuid {
         GATT_UUID
     }
@@ -206,6 +207,10 @@ impl gatt_server::Server for DataServiceServer {
             value_handle: handles.value_handle,
         })
     }
+
+    fn on_write(&self, _: u16, _: &[u8]) -> Option<u8> {
+        None
+    }
 }
 
 #[static_executor::task]
@@ -215,13 +220,7 @@ async fn run_softdevice(sd: &'static Softdevice) {
 }
 
 #[static_executor::task]
-async fn run_gatt_server(sd: &'static Softdevice, server: DataServiceServer) {
-    debug!("GATT run");
-    gatt_server::run(sd, &server).await
-}
-
-#[static_executor::task]
-async fn run_bluetooth(sd: &'static Softdevice) {
+async fn run_bluetooth(sd: &'static Softdevice, server: DataServiceServer) {
     debug!("Run bluetooth!");
 
     #[rustfmt::skip]
@@ -236,7 +235,7 @@ async fn run_bluetooth(sd: &'static Softdevice) {
     ];
 
     loop {
-        info!("Advertising start!");
+        debug!("Advertising start!");
         let conn = peripheral::advertise(
             sd,
             peripheral::ConnectableAdvertisement::ScannableUndirected {
@@ -247,7 +246,15 @@ async fn run_bluetooth(sd: &'static Softdevice) {
         .await
         .dewrap();
 
-        info!("Advertising done!");
+        debug!("Connection opened");
+
+        let res = gatt_server::run(&conn, &server, |_| {}).await;
+
+        if let Err(err) = res {
+            error!("GATT server error: {:?}", err);
+        }
+
+        debug!("Connection closed");
 
         // Detach the connection so it isn't disconnected when dropped.
         //conn.detach();
